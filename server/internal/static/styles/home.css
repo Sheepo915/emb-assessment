@@ -1,0 +1,27 @@
+.book-list {
+  display: grid;
+  width: 80vw;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  row-gap: 1em;
+  column-gap: 0.5em;
+}
+
+.book {
+  width: 100%;
+  height: 60%;
+  object-fit: cover;
+  border-bottom: 1px solid #eee;
+}
+
+.book-title {
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin: 0.5rem 0 0.3rem;
+  color: #333;
+}
+
+.book-author {
+  font-size: 0.9rem;
+  color: #777;
+  margin: 0;
+}
