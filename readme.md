@@ -1,5 +1,18 @@
 Candidate Name: Chong Shao Yang
 
+## Notes
+
+The placeholder image is changed from the return URI from the API response.
+The link provided is broken.
+
+Instead of using http://placeimg.com/480/640/any, it is using http://placehold.co/480x640.
+
+## ENV
+
+ADDR: Ports the server will be running on (eg. :8000, :9886)
+
+DUMMY_API: Base API for the dummy data https://fakerapi.it/api/v1/books
+
 ## Part 3: Database
 
 a)
