@@ -2,10 +2,10 @@ package handlers
 
 import (
 	"encoding/json"
+	"fmt"
 	"io"
 	"math"
 	"net/http"
-	"sort"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
@@ -15,40 +15,34 @@ import (
 )
 
 type bookHandler interface {
-	Index(c *gin.Context)
+	GetBooks(c *gin.Context)
 }
 
-const (
-	quantity = "1000"
-	seed     = "12345"
-)
+func (h *Handler) GetBooks(c *gin.Context) {
+	var query dto.GetBooksRequest
 
-func (h *Handler) Index(c *gin.Context) {
-	page, _ := strconv.Atoi(c.DefaultQuery("page", "1"))
-	limitParam := c.DefaultQuery("limit", "10")
-	order := c.DefaultQuery("sort", "asc")
-
-	var limit int
-	if limitParam == "unlimited" {
-		limit = -1
-	} else {
-		limit, _ = strconv.Atoi(limitParam)
+	err := c.ShouldBind(&query)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, dto.ErrorResponse{
+			Error:       "invalid request",
+			Description: err.Error(),
+		})
+		return
 	}
 
-	totalItems := 0
-	if limit == -1 {
-		totalItems, _ = strconv.Atoi(quantity) // full dataset size
-	} else {
-		totalItems, _ = strconv.Atoi(quantity) // still full dataset for pagination calc
+	if query.Total < query.PerPage {
+		query.Total = query.PerPage
 	}
+
+	bookKey := getBookKey(query.Seed, query.Total)
 
 	var data model.Response
-	if _, ok := h.cache["books"]; !ok {
+	if _, ok := h.cache[bookKey]; !ok {
 		api, err := utils.APIConstruct(h.cfg.DummyAPI,
 			&utils.QueryKVPair{
-				Key: "_quantity", Value: strconv.Itoa(totalItems),
+				Key: "_quantity", Value: strconv.Itoa(query.Total),
 			}, &utils.QueryKVPair{
-				Key: "_seed", Value: seed,
+				Key: "_seed", Value: strconv.Itoa(query.Seed),
 			},
 		)
 		if err != nil {
@@ -86,78 +80,33 @@ func (h *Handler) Index(c *gin.Context) {
 			return
 		}
 
-		h.cache["books"] = data
+		if query.Cache {
+			h.cache[bookKey] = data
+		}
 	} else {
-		data, _ = h.cache["books"].(model.Response)
+		data, _ = h.cache[bookKey].(model.Response)
 	}
 
-	if order == "desc" {
-		sort.Slice(data.Data, func(i, j int) bool {
-			return data.Data[i].Title > data.Data[j].Title
+	totalPages := int(math.Ceil(float64(len(data.Data)) / float64(query.PerPage)))
+
+	start := (query.Page - 1) * query.PerPage
+	end := start + query.PerPage
+	if start > len(data.Data) {
+		c.JSON(http.StatusBadRequest, dto.ErrorResponse{
+			Error:       "page overflow",
+			Description: fmt.Sprintf("You have exceeded the page limit. Total page at %d", totalPages),
 		})
-	} else {
-		sort.Slice(data.Data, func(i, j int) bool {
-			return data.Data[i].Title < data.Data[j].Title
-		})
+		return
+	}
+	if end > len(data.Data) {
+		end = len(data.Data)
 	}
 
-	totalPages := 1
-	if limit > 0 {
-		totalPages = int(math.Ceil(float64(len(data.Data)) / float64(limit)))
-	}
-
-	prev := 0
-	if page > 1 {
-		prev = page - 1
-	}
-
-	next := 0
-	if page < totalPages {
-		next = page + 1
-	}
-
-	if limit != -1 {
-		start := (page - 1) * limit
-		end := start + limit
-		if start > len(data.Data) {
-			start = len(data.Data)
-		}
-		if end > len(data.Data) {
-			end = len(data.Data)
-		}
-		data.Data = data.Data[start:end]
-	}
-
-	// Replace given placeholder with working placeholder
-	for i := range data.Data {
-		data.Data[i].Image = "https://placehold.co/480x640"
-	}
-
-	var selected model.Book
-	idParam := c.Query("id")
-	if idParam != "" {
-		if id, err := strconv.Atoi(idParam); err == nil {
-			for _, book := range data.Data {
-				if book.ID == id {
-					selected = book
-					break
-				}
-			}
-		}
-	}
-
-	renderData := dto.RenderBookHome{
-		Books:    data.Data,
-		Selected: selected,
-		Pagination: dto.Pagination{
-			Page:       page,
-			Prev:       prev,
-			Next:       next,
-			TotalPages: totalPages,
-			Limit:      limit,
-			Order:      order,
-		},
-	}
-
-	c.HTML(http.StatusOK, "index.html", renderData)
+	c.JSON(http.StatusOK, dto.GetBooksResponse{
+		Books:      data.Data[start:end],
+		Page:       query.Page,
+		PerPage:    query.PerPage,
+		Total:      len(data.Data),
+		TotalPages: totalPages,
+	})
 }

@@ -27,6 +27,6 @@ func SetupRoute(g *gin.Engine, h *handlers.Handler) {
 	{
 		v1 := g.Group("v1")
 
-		v1.GET("/books")
+		v1.GET("/api/books", h.GetBooks)
 	}
 }
