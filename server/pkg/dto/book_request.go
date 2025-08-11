@@ -2,9 +2,17 @@ package dto
 
 import "sheepo.com/emb_assessment/pkg/model"
 
-type GetAllBooksResponse struct {
+type Pagination struct {
+	Page       int
+	Prev       int
+	Next       int
+	TotalPages int
+	Limit      int
+	Order      string
 }
 
 type RenderBookHome struct {
-	Books []model.Book
+	Pagination Pagination
+	Books      []model.Book
+	Selected   model.Book
 }

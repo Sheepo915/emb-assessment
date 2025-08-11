@@ -38,4 +38,113 @@
   align-items: center;
   margin-inline: auto;
   padding: 1rem;
+  gap: 1em;
+}
+
+.top-btn {
+  position: fixed;
+  bottom: 0.5rem;
+  right: 0.5rem;
+  border-radius: 100%;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.dialog {
+  border: none;
+  border-radius: 8px;
+  padding: 0;
+  max-width: 64rem;
+  max-height: 32rem;
+  height: 90%;
+  width: 90%;
+}
+
+.dialog-content {
+  display: flex;
+  height: 100%;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.dialog-image {
+  width: 20rem;
+  height: auto;
+  border-radius: 4px;
+  object-fit: cover;
+}
+
+.dialog-info {
+  flex: 1;
+}
+
+.dialog-info h2 {
+  margin-top: 0;
+}
+
+.font-semibold {
+  font-weight: 700;
+}
+
+.pagination-options {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.pagination-btn {
+  padding-inline: 0.75rem;
+  padding-block: 0.25rem;
+  font-size: 10pt;
+  border: 1px solid black;
+  border-radius: 0.2rem;
+}
+
+.pagination-btn:hover {
+  background-color: lightgrey;
+}
+
+.pagination-btn-active {
+  padding-inline: 0.75rem;
+  padding-block: 0.25rem;
+  font-size: 10pt;
+  color: white;
+  background: black;
+  border-radius: 0.2rem;
+}
+
+.pagination-btn-disabled {
+  padding-inline: 0.75rem;
+  padding-block: 0.25rem;
+  font-size: 10pt;
+  color: grey;
+  border: 1px solid black;
+  border-radius: 0.2rem;
+  cursor: not-allowed;
+}
+
+.pagination-options > .go-to {
+  margin-left: 1rem;
+}
+
+.pagination-options a {
+  text-decoration: none;
+  color: black;
+}
+
+.pagination-options input[type="number"]::-webkit-inner-spin-button,
+.pagination-options input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.pagination-options input[type="number"] {
+  -moz-appearance: textfield;
 }

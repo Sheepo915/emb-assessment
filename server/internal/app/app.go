@@ -8,20 +8,23 @@ import (
 )
 
 type App struct {
-	gin *gin.Engine
-	cfg *config.Config
+	gin   *gin.Engine
+	cfg   *config.Config
+	cache map[string]any // Simple cache implementation
 }
 
 func NewApp(cfg *config.Config) *App {
 	gin := gin.Default()
 
-	handler := handlers.NewHandler(cfg)
+	cache := make(map[string]any)
+	handler := handlers.NewHandler(cfg, cache)
 
 	routes.SetupRoute(gin, handler)
 
 	return &App{
-		gin: gin,
-		cfg: cfg,
+		gin:   gin,
+		cfg:   cfg,
+		cache: cache,
 	}
 }
 
