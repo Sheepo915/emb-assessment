@@ -1,5 +1,11 @@
 :root {
-  
+  --clr-old-rose: #cc8b86;
+  --clr-linen: #f9eae1;
+  --clr-rose-taupe: #7d4f50;
+  --clr-dun: #d1be9c;
+  --clr-cinereous: #aa998f;
+
+  --var-input-height: 1.5rem;
 }
 
 /* Box sizing rules */
@@ -32,8 +38,8 @@ dd {
 }
 
 /* Remove list styles on ul, ol elements with a list role, which suggests default styling will be removed */
-ul[role='list'],
-ol[role='list'] {
+ul[role="list"],
+ol[role="list"] {
   list-style: none;
 }
 
@@ -41,7 +47,9 @@ ol[role='list'] {
 body {
   min-height: 100vh;
   line-height: 1.5;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  background-color: var(--clr-cinereous);
 }
 
 /* Set shorter line heights on headings and interactive elements */
@@ -93,4 +101,22 @@ textarea:not([rows]) {
 /* Anything that has been anchored to should have extra scroll margin */
 :target {
   scroll-margin-block: 5ex;
+}
+
+/* Default behaviour */
+input {
+  background-color: var(--clr-linen);
+  border: 1px solid var(--clr-rose-taupe);
+  border-radius: 0.2rem;
+  padding-inline: 0.2rem;
+  height: var(--var-input-height);
+}
+
+button,
+select,
+option {
+  background-color: var(--clr-linen);
+  border: 1px solid var(--clr-rose-taupe);
+  border-radius: 0.2rem;
+  height: var(--var-input-height);
 }

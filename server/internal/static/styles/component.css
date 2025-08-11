@@ -1,6 +1,7 @@
 .logo {
   color: black;
   text-decoration: none;
+  font-weight: bold;
 }
 
 .app-bar {
@@ -10,16 +11,17 @@
   padding-inline: 1.2rem;
   height: 3rem;
   width: 100%;
-  box-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 1px var(--clr-old-rose);
+  background: var(--clr-linen);
 }
 
 .card {
   width: 16rem;
   height: 22rem;
   border-radius: 0.8rem;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  box-shadow: -3px 4px 0 var(--clr-old-rose);
   overflow: hidden;
-  background-color: #fff;
+  background-color: var(--clr-dun);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -42,10 +44,14 @@
 }
 
 .top-btn {
+  --var-size: 2.5rem;
+
   position: fixed;
   bottom: 0.5rem;
   right: 0.5rem;
   border-radius: 100%;
+  height: var(--var-size);
+  width: var(--var-size);
 }
 
 .pointer {
@@ -67,6 +73,7 @@
   height: 100%;
   flex-direction: row;
   justify-content: center;
+  background-color: var(--clr-linen);
   align-items: center;
   gap: 1rem;
   padding: 1rem;
@@ -87,6 +94,21 @@
   margin-top: 0;
 }
 
+.dialog button {
+  --position: 1.5rem;
+
+  position: absolute;
+  width: fit-content;
+  right: var(--position);
+  top: var(--position);
+  border: 0;
+}
+
+.dialog button:focus {
+  border: 0;
+  outline: 0;
+}
+
 .font-semibold {
   font-weight: 700;
 }
@@ -103,12 +125,14 @@
   padding-inline: 0.75rem;
   padding-block: 0.25rem;
   font-size: 10pt;
-  border: 1px solid black;
+  border: 1px solid var(--clr-rose-taupe);
   border-radius: 0.2rem;
+  background-color: var(--clr-linen);
 }
 
 .pagination-btn:hover {
   background-color: lightgrey;
+  background-color: var(--clr-linen);
 }
 
 .pagination-btn-active {
@@ -116,7 +140,7 @@
   padding-block: 0.25rem;
   font-size: 10pt;
   color: white;
-  background: black;
+  background: var(--clr-rose-taupe);
   border-radius: 0.2rem;
 }
 
@@ -125,9 +149,10 @@
   padding-block: 0.25rem;
   font-size: 10pt;
   color: grey;
-  border: 1px solid black;
+  border: 1px solid var(--clr-rose-taupe);
   border-radius: 0.2rem;
   cursor: not-allowed;
+  background-color: var(--clr-cinereous);
 }
 
 .pagination-options > .go-to {

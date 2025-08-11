@@ -30,7 +30,7 @@
 
 .book-author {
   font-size: 0.9rem;
-  color: #777;
+  color: var(--clr-rose-taupe);
   margin: 0;
 }
 
